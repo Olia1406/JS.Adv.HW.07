@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // при кліку на кнопку search, відсилається запит по імені фільму
-    document.getElementById('get-search').addEventListener('click', () => {
+    document.getElementById('get-search').onclick = function () {
         // тут виділено те, що можливо треба видалити, вкінці написано чому
         // -***------------------
         $('.cross').hide();
@@ -11,7 +11,7 @@ $(document).ready(function () {
             .then(data => showData(data))
             .then(data => sendIdRequest(data))
             .catch(error => console.log(error))
-    })
+    }
     // тут описана ф-ція, що використовується при кліку вище, відсилає запит
     function sendXHRRequest(method, url) {
         const xhr = new XMLHttpRequest();
@@ -58,14 +58,14 @@ $(document).ready(function () {
         return new Promise((resolve, reject) => {
             let detailsObj = {};
             for (let i = 0; i < 8; i++) {
-                buttsMore[i].addEventListener('click', function () {
-                    $('.modal').fadeIn(500);
+                buttsMore[i].onclick = function () {
                     const xhr = new XMLHttpRequest();
                     xhr.open('GET', `http://www.omdbapi.com/?i=${ddId[i]}&plot=full&apikey=da2fafc6`);
                     xhr.send();
                     xhr.onload = function () {
                         let details = JSON.parse(xhr.response);
                         console.log(details);
+                        $('.modal').fadeIn(500);
                         modal_img.style.backgroundImage = `url(${details.Poster})`;
                         $('.title').text(`${details.Title}`);
                         $('.decription1').text(` ${details.Rated} ${details.Genre}`);
@@ -81,7 +81,7 @@ $(document).ready(function () {
                         detailsObj[i] = details;
                     }
                     console.log(ddId[i])
-                })
+                }
             }
             if (detailsObj.length != 0) {
                 console.log(detailsObj);
